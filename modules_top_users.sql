@@ -4,7 +4,7 @@ FROM (
     SELECT
         u.module,
         u.`user`,
-        u.n_loads AS max_loads,
+        u.n_loads,
         ROW_NUMBER() OVER(PARTITION BY u.module ORDER BY n_loads DESC) AS row_num
     FROM (
         SELECT 
@@ -22,9 +22,8 @@ FROM (
     ) AS u 
 ) AS t
 
-WHERE t.row_num = 1
+WHERE t.row_num IN (1, 2, 3, 4, 5)
 
 ORDER BY 
     max_loads DESC
-
 ;
